@@ -8,14 +8,12 @@ import json
 import random
 import sqlite3
 import hashlib
-import time
-from datetime import datetime
 from functools import wraps
 from flask import (
     Flask, render_template_string, request, redirect,
     url_for, session, jsonify, g
 )
-import requests
+from groq import Groq
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "change-this-secret-key-in-production")
@@ -84,23 +82,15 @@ def init_db():
 def groq_chat(messages, temperature=0.2, max_tokens=4096):
     if not GROQ_API_KEY:
         return None
-    headers = {
-        "Authorization": f"Bearer {GROQ_API_KEY}",
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "model": "llama3-70b-8192",
-        "messages": messages,
-        "temperature": temperature,
-        "max_tokens": max_tokens
-    }
     try:
-        r = requests.post(
-            "https://api.groq.com/openai/v1/chat/completions",
-            headers=headers, json=payload, timeout=60
+        client = Groq(api_key=GROQ_API_KEY)
+        completion = client.chat.completions.create(
+            model="llama3-70b-8192",
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens,
         )
-        r.raise_for_status()
-        return r.json()["choices"][0]["message"]["content"]
+        return completion.choices[0].message.content
     except Exception as e:
         print(f"GROQ Error: {e}")
         return None
@@ -1807,6 +1797,9 @@ def quiz_result(sess_id):
 # ─────────────────────────────────────────────
 # MAIN
 # ─────────────────────────────────────────────
+
+# Initialize DB at import time (works with gunicorn)
+init_db()
 
 if __name__ == "__main__":
     init_db()
