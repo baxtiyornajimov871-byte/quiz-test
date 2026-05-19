@@ -320,7 +320,7 @@ INDEX_TEMPLATE = BASE_HTML.replace("{% block content %}{% endblock %}", """
     <div class="card">
       <div style="margin-bottom:10px"><span class="badge">{{ b['q_count'] }} savol</span></div>
       <h3>{{ b['name'] }}</h3>
-      <p>{{ b['description'] or 'Tavsif yo'q' }}</p>
+      <p>{{ b['description'] or "Tavsif yo'q" }}</p>
       <a href="/quiz/setup/{{ b['id'] }}" class="btn btn-primary" style="width:100%;justify-content:center">Test boshlash →</a>
     </div>
     {% endfor %}
