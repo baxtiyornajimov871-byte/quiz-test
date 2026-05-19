@@ -420,6 +420,7 @@ HOME_TEMPLATE = """
   <title>QuizAI — AI Powered Quiz Platformasi</title>
   <style>{{ base_style }}</style>
   <style>
+    {% raw %}
     .hero {
       min-height: 80vh;
       display: flex; flex-direction: column;
@@ -520,6 +521,7 @@ HOME_TEMPLATE = """
     .fi-2 { background: rgba(6,182,212,0.2); }
     .fi-3 { background: rgba(245,158,11,0.2); }
     .fi-4 { background: rgba(16,185,129,0.2); }
+    {% endraw %}
   </style>
 </head>
 <body>
@@ -576,7 +578,7 @@ HOME_TEMPLATE = """
       <a href="/quiz/setup/{{ base.id }}" class="base-card" style="animation-delay:{{ loop.index0 * 0.08 }}s">
         <div class="base-card-icon">📝</div>
         <h3>{{ base.name }}</h3>
-        <p>{{ base.description or 'Tavsif yo\'q' }}</p>
+        <p>{{ base.description or "Tavsif yo'q" }}</p>
         <div class="base-card-meta">
           <span class="badge badge-accent">{{ base.q_count }} savol</span>
           <span>•</span>
@@ -612,6 +614,7 @@ ADMIN_LOGIN_TEMPLATE = """
   <title>Admin Login — QuizAI</title>
   <style>{{ base_style }}</style>
   <style>
+    {% raw %}
     .login-wrap {
       min-height: 100vh;
       display: flex; align-items: center; justify-content: center;
@@ -635,6 +638,7 @@ ADMIN_LOGIN_TEMPLATE = """
     }
     .login-box h2 { text-align: center; margin-bottom: 6px; }
     .login-sub { text-align: center; color: var(--text2); font-size: 0.875rem; margin-bottom: 32px; }
+    {% endraw %}
   </style>
 </head>
 <body>
@@ -669,6 +673,7 @@ ADMIN_PANEL_TEMPLATE = """
   <title>Admin Panel — QuizAI</title>
   <style>{{ base_style }}</style>
   <style>
+    {% raw %}
     .admin-header { padding: 40px 0 30px; }
     .admin-header h1 { font-size: 2rem; margin-bottom: 8px; }
     .admin-header p { color: var(--text2); }
@@ -711,6 +716,7 @@ ADMIN_PANEL_TEMPLATE = """
     .loading-overlay.active { display: flex; }
     .loading-text { color: var(--text2); font-size: 0.95rem; animation: pulse 1.5s ease infinite; }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+    {% endraw %}
   </style>
 </head>
 <body>
@@ -844,6 +850,7 @@ QUIZ_SETUP_TEMPLATE = """
   <title>{{ base.name }} — QuizAI</title>
   <style>{{ base_style }}</style>
   <style>
+    {% raw %}
     .setup-page { max-width: 680px; margin: 0 auto; padding: 60px 0; }
     .setup-header { text-align: center; margin-bottom: 40px; }
     .setup-header .icon {
@@ -896,6 +903,7 @@ QUIZ_SETUP_TEMPLATE = """
       display: flex; align-items: center; gap: 8px;
     }
     .start-section { text-align: center; margin-top: 36px; }
+    {% endraw %}
   </style>
 </head>
 <body>
@@ -1018,6 +1026,7 @@ QUIZ_PLAY_TEMPLATE = """
   <title>Test — QuizAI</title>
   <style>{{ base_style }}</style>
   <style>
+    {% raw %}
     .quiz-layout { max-width: 760px; margin: 0 auto; padding: 24px 0 60px; }
     .quiz-topbar {
       background: var(--card); border: 1px solid var(--card-border);
@@ -1115,6 +1124,7 @@ QUIZ_PLAY_TEMPLATE = """
     .finish-modal h3 { margin-bottom: 12px; }
     .finish-modal p { color: var(--text2); margin-bottom: 24px; font-size: 0.9rem; }
     .finish-modal .btn-row { display: flex; gap: 10px; justify-content: center; }
+    {% endraw %}
   </style>
 </head>
 <body>
@@ -1312,6 +1322,7 @@ RESULT_TEMPLATE = """
   <title>Natija — QuizAI</title>
   <style>{{ base_style }}</style>
   <style>
+    {% raw %}
     .result-page { max-width: 800px; margin: 0 auto; padding: 40px 0 80px; }
     .result-hero { text-align: center; padding: 40px 0; }
     .score-ring-wrap {
@@ -1391,6 +1402,7 @@ RESULT_TEMPLATE = """
     .review-opt.neutral { background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); color: var(--text2); }
     .opt-icon { font-size: 0.8rem; }
     .cta-row { text-align: center; margin-top: 40px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    {% endraw %}
   </style>
 </head>
 <body>
