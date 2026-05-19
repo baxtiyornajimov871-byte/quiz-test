@@ -22,7 +22,7 @@ app.secret_key = os.environ["SECRET_KEY"]
 
 GROQ_API_KEY = os.environ["GROQ_API_KEY"]
 DATABASE = "quiz_platform.db"
-ADMIN_PASSWORD_HASH = os.environ["ADMIN_PASSWORD_HASH"]
+ADMIN_PASSWORD = os.environ["ADMIN_PASSWORD"]
 
 # GROQ CLIENT
 client = Groq(api_key=GROQ_API_KEY)
