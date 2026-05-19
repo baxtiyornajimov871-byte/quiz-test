@@ -7,7 +7,6 @@ import os
 import json
 import random
 import sqlite3
-import hashlib
 from functools import wraps
 from flask import (
     Flask, render_template_string, request, redirect,
