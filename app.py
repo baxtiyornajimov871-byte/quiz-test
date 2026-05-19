@@ -16,14 +16,16 @@ from flask import (
 from groq import Groq
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "change-this-secret-key-in-production")
 
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY")
+# ENV VARIABLES
+app.secret_key = os.environ["SECRET_KEY"]
+
+GROQ_API_KEY = os.environ["GROQ_API_KEY"]
 DATABASE = "quiz_platform.db"
-ADMIN_PASSWORD_HASH = os.environ.get(
-    "ADMIN_PASSWORD_HASH",
-    hashlib.sha256("admin123".encode()).hexdigest()
-)
+ADMIN_PASSWORD_HASH = os.environ["ADMIN_PASSWORD_HASH"]
+
+# GROQ CLIENT
+client = Groq(api_key=GROQ_API_KEY)
 
 # ─────────────────────────────────────────────
 # DATABASE
