@@ -166,6 +166,11 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated
 
+def render(template, **kwargs):
+    """Inject BASE_STYLE before Jinja2 parses to avoid {{ }} conflicts in CSS."""
+    html = template.replace("{{ base_style }}", BASE_STYLE)
+    return render_template_string(html, **kwargs)
+
 # ─────────────────────────────────────────────
 # TEMPLATES (all inline)
 # ─────────────────────────────────────────────
@@ -1491,9 +1496,7 @@ def home():
         GROUP BY qb.id ORDER BY qb.created_at DESC
     """).fetchall()
     bases = [dict(r) for r in rows]
-    return render_template_string(
-        HOME_TEMPLATE, base_style=BASE_STYLE, bases=bases
-    )
+    return render(HOME_TEMPLATE, bases=bases)
 
 # ─── ADMIN ───
 
@@ -1512,8 +1515,8 @@ def admin_panel():
         "questions": db.execute("SELECT COUNT(*) FROM questions").fetchone()[0],
         "sessions": db.execute("SELECT COUNT(*) FROM quiz_sessions").fetchone()[0],
     }
-    return render_template_string(
-        ADMIN_PANEL_TEMPLATE, base_style=BASE_STYLE,
+    return render(
+        ADMIN_PANEL_TEMPLATE,
         bases=[dict(b) for b in bases], stats=stats,
         error=session.pop("admin_error", None),
         success=session.pop("admin_success", None)
@@ -1526,11 +1529,8 @@ def admin_login():
         if hashlib.sha256(pw.encode()).hexdigest() == ADMIN_PASSWORD_HASH:
             session["admin_logged_in"] = True
             return redirect(url_for("admin_panel"))
-        return render_template_string(
-            ADMIN_LOGIN_TEMPLATE, base_style=BASE_STYLE,
-            error="Parol noto'g'ri!"
-        )
-    return render_template_string(ADMIN_LOGIN_TEMPLATE, base_style=BASE_STYLE, error=None)
+        return render(ADMIN_LOGIN_TEMPLATE, error="Parol noto'g'ri!")
+    return render(ADMIN_LOGIN_TEMPLATE, error=None)
 
 @app.route("/admin/logout")
 def admin_logout():
@@ -1601,10 +1601,7 @@ def quiz_setup(base_id):
     if not base:
         return redirect(url_for("home"))
     q_count = db.execute("SELECT COUNT(*) FROM questions WHERE base_id=?", (base_id,)).fetchone()[0]
-    return render_template_string(
-        QUIZ_SETUP_TEMPLATE, base_style=BASE_STYLE,
-        base=dict(base), q_count=q_count
-    )
+    return render(QUIZ_SETUP_TEMPLATE, base=dict(base), q_count=q_count)
 
 @app.route("/quiz/start", methods=["POST"])
 def quiz_start():
@@ -1670,8 +1667,8 @@ def quiz_start():
 
     base = db.execute("SELECT name FROM quiz_bases WHERE id=?", (base_id,)).fetchone()
 
-    return render_template_string(
-        QUIZ_PLAY_TEMPLATE, base_style=BASE_STYLE,
+    return render(
+        QUIZ_PLAY_TEMPLATE,
         questions_json=json.dumps(frontend_qs, ensure_ascii=False),
         session_id=sess_id,
         total=len(quiz_questions),
@@ -1786,8 +1783,8 @@ def quiz_result(sess_id):
 
     result = {"score": score, "total": total, "wrong": wrong, "unanswered": unanswered}
 
-    return render_template_string(
-        RESULT_TEMPLATE, base_style=BASE_STYLE,
+    return render(
+        RESULT_TEMPLATE,
         result=result, pct=pct, motivation=motivation,
         ring_color=ring_color, review=review,
         time_str=time_str, base_id=base_id,
