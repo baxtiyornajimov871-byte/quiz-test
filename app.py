@@ -80,7 +80,7 @@ def init_db():
 # GROQ API
 # ─────────────────────────────────────────────
 
-def groq_chat(messages, temperature=0.2, max_tokens=4096):
+def groq_chat(messages, temperature=0.2, max_tokens=2000):
     if not GROQ_API_KEY:
         return None
     try:
@@ -144,16 +144,20 @@ Return valid JSON only."""
         return None, "GROQ API javob bermadi."
 
     try:
-        # Try to extract JSON from response
-        text = response.strip()
-        # Remove markdown code blocks if present
-        if text.startswith("```"):
-            lines = text.split("\n")
-            text = "\n".join(lines[1:-1])
-        data = json.loads(text)
-        return data, None
-    except json.JSONDecodeError as e:
-        return None, f"AI javobi JSON formatida emas: {e}"
+    text = response.strip()
+
+    text = text.replace("```json", "").replace("```", "").strip()
+
+    start = text.find("{")
+    end = text.rfind("}") + 1
+    text = text[start:end]
+
+    data = json.loads(text)
+
+    return data, None
+
+except Exception as e:
+    return None, f"AI javobi JSON formatida emas: {e}"
 
 # ─────────────────────────────────────────────
 # AUTH
