@@ -23,7 +23,13 @@ app.secret_key = os.environ["SECRET_KEY"]
 GROQ_API_KEY = os.environ["GROQ_API_KEY"]
 DATABASE = "quiz_platform.db"
 ADMIN_PASSWORD = os.environ["ADMIN_PASSWORD"]
+password = request.form.get("password")
 
+if password == ADMIN_PASSWORD:
+    session["admin"] = True
+    return redirect(url_for("admin_panel"))
+else:
+    error = "Parol noto‘g‘ri!"
 # GROQ CLIENT
 client = Groq(api_key=GROQ_API_KEY)
 
