@@ -1563,7 +1563,10 @@ def admin_add():
         session["admin_error"] = "Barcha majburiy maydonlarni to'ldiring."
         return redirect(url_for("admin_panel"))
 
-    parsed, err = parse_quiz_with_ai(quiz_text, answer_instructions)
+    parsed, err = parse_quiz_with_ai(
+    quiz_text,
+    answer_instructions
+)
     if err or not parsed:
         session["admin_error"] = f"AI xatosi: {err or 'Noma\'lum xato'}"
         return redirect(url_for("admin_panel"))
