@@ -86,7 +86,7 @@ def groq_chat(messages, temperature=0.2, max_tokens=4096):
     try:
         client = Groq(api_key=GROQ_API_KEY)
         completion = client.chat.completions.create(
-            model="llama3-70b-8192",
+            model="llama-3.3-70b-versatile",
             messages=messages,
             temperature=temperature,
             max_tokens=max_tokens,
