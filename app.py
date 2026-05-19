@@ -1540,12 +1540,14 @@ def admin_panel():
 def admin_login():
     if request.method == "POST":
         pw = request.form.get("password", "")
-        if hashlib.sha256(pw.encode()).hexdigest() == ADMIN_PASSWORD_HASH:
+
+        if pw == ADMIN_PASSWORD:
             session["admin_logged_in"] = True
             return redirect(url_for("admin_panel"))
-        return render(ADMIN_LOGIN_TEMPLATE, error="Parol noto'g'ri!")
-    return render(ADMIN_LOGIN_TEMPLATE, error=None)
 
+        return render(ADMIN_LOGIN_TEMPLATE, error="Parol noto'g'ri!")
+
+    return render(ADMIN_LOGIN_TEMPLATE, error=None)
 @app.route("/admin/logout")
 def admin_logout():
     session.pop("admin_logged_in", None)
